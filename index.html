@@ -8,27 +8,27 @@
   </head>
   <body>
     <header>
-      <h1 id="titre">Salle d'escalade de Beaulieu</h1>
-      <div id="auth-container">
-        <div id="auth-form" class="auth-form">
-          <input type="email" id="email" placeholder="Email" />
-          <input type="password" id="password" placeholder="Mot de passe" />
-          <button onclick="signIn()">Se connecter</button>
-          <button onclick="signUp()">S'inscrire</button>
+      <h1 id="titre">Salle d'escalade de Beaulieu</h1> <!-- Titre principal de la page -->
+      <div id="auth-container"> <!-- Conteneur pour l'authentification -->
+        <div id="auth-form" class="auth-form"> <!-- Formulaire d'authentification -->
+          <input type="email" id="email" placeholder="Email" /> <!-- Champ pour saisir l'email -->
+          <input type="password" id="password" placeholder="Mot de passe" /> <!-- Champ pour saisir le mot de passe -->
+          <button onclick="signIn()">Se connecter</button> <!-- Bouton pour se connecter, qui appelle la fonction signIn() -->
+          <button onclick="signUp()">S'inscrire</button> <!-- Bouton pour s'inscrire, qui appelle la fonction signUp() -->
         </div>
-        <div id="user-info" style="display: none">
-          <span id="user-email"></span>
-          <button onclick="signOut()" class="signout-btn">
+        <div id="user-info" style="display: none"> <!-- Section d'informations utilisateur, cachée par défaut -->
+          <span id="user-email"></span> <!-- Affichage de l'email de l'utilisateur connecté -->
+          <button onclick="signOut()" class="signout-btn"> <!-- Bouton pour se déconnecter, qui appelle la fonction signOut() -->
             Se déconnecter
           </button>
         </div>
       </div>
     </header>
 
-    <main class="bloc-list">
-      <div class="bloc" onclick="openLightbox('Images/bloc1.jpg')">
-        <img src="Images/bloc1.jpg" alt="Bloc 1" />
-        <div class="bloc-info">Bloc 1 - V2</div>
+    <main class="bloc-list"> <!-- Section principale contenant les blocs d'escalade -->
+      <div class="bloc" onclick="openLightbox('Images/bloc1.jpg')"> <!-- Bloc d'escalade 1, qui ouvre l'image en grand dans une lightbox au clic -->
+        <img src="Images/bloc1.jpg" alt="Bloc 1" /> <!-- Image du bloc 1 -->
+        <div class="bloc-info">Bloc 1 - V2</div> <!-- Informations sur le bloc 1 -->
       </div>
       <div class="bloc" onclick="openLightbox('Images/bloc2.jpg')">
         <img src="Images/bloc2.jpg" alt="Bloc 2" />
@@ -76,100 +76,109 @@
       </div>
     </main>
 
-    <div id="lightbox" class="lightbox">
-      <a href="#" class="close">&times;</a>
-      <img id="lightbox-img" src="" alt="Bloc en grand" />
+    <div id="lightbox" class="lightbox"> <!-- Conteneur pour la lightbox, qui affiche l'image en grand -->
+      <a href="#" class="close">&times;</a> <!-- Croix de fermeture de la lightbox -->
+      <img id="lightbox-img" src="" alt="Bloc en grand" /> <!-- Image affichée dans la lightbox -->
     </div>
 
     <script type="module">
-      import { initializeApp } from 'firebase/app';
-      import { getAuth } from 'firebase/auth';
+      import { initializeApp } from 'firebase/app'; // Importation de la fonction pour initialiser Firebase
+      import { getAuth } from 'firebase/auth'; // Importation de la fonction pour gérer l'authentification Firebase
 
-      const firebaseConfig = {
-        apiKey: 'AIzaSyD4qilE_HQzSTAD_2Qz4BLv90ilk4wYx3E',
-        authDomain: 'salle-d-escalade.firebaseapp.com',
-        projectId: 'salle-d-escalade',
-        storageBucket: 'salle-d-escalade.firebasestorage.app',
-        messagingSenderId: '866773882445',
-        appId: '1:866773882445:web:fa0ea26224e1424dd72e04',
+      // Configuration de Firebase avec les informations spécifiques à l'application
+      const firebaseConfig = { 
+        apiKey: 'AIzaSyD4qilE_HQzSTAD_2Qz4BLv90ilk4wYx3E', // Clé API pour Firebase
+        authDomain: 'salle-d-escalade.firebaseapp.com', // Domaine d'authentification Firebase
+        projectId: 'salle-d-escalade', // ID du projet Firebase
+        storageBucket: 'salle-d-escalade.firebasestorage.app', // Bucket de stockage Firebase
+        messagingSenderId: '866773882445', // ID de l'expéditeur de messages Firebase
+        appId: '1:866773882445:web:fa0ea26224e1424dd72e04', // ID de l'application Firebase
       };
 
-      const app = initializeApp(firebaseConfig);
-      export const auth = getAuth(app);
+      const app = initializeApp(firebaseConfig); // Initialisation de l'application Firebase
+      export const auth = getAuth(app); // Récupération de l'instance d'authentification Firebase
 
-      import {
+      import { // Importation des fonctions d'authentification nécessaires
         signInWithEmailAndPassword,
         createUserWithEmailAndPassword,
         signOut as firebaseSignOut,
       } from 'firebase/auth';
 
-      window.openLightbox = function (imageSrc) {
-        const lightbox = document.getElementById('lightbox');
-        const img = document.getElementById('lightbox-img');
-        img.src = imageSrc;
-        lightbox.style.display = 'flex';
+      // Fonction pour ouvrir la lightbox et afficher l'image en grand
+      window.openLightbox = function (imageSrc) { 
+        const lightbox = document.getElementById('lightbox'); // Sélection de l'élément lightbox
+        const img = document.getElementById('lightbox-img'); // Sélection de l'élément de l'image à afficher
+        img.src = imageSrc; // Affectation de l'URL de l'image à afficher dans la lightbox
+        lightbox.style.display = 'flex'; // Affichage de la lightbox
       };
 
-      window.signIn = async function () {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+      // Fonction de connexion de l'utilisateur avec email et mot de passe
+      window.signIn = async function () { 
+        const email = document.getElementById('email').value; // Récupération de l'email saisi par l'utilisateur
+        const password = document.getElementById('password').value; // Récupération du mot de passe saisi par l'utilisateur
         try {
-          await signInWithEmailAndPassword(auth, email, password);
-          alert('Connexion réussie !');
+          await signInWithEmailAndPassword(auth, email, password); // Tentative de connexion avec Firebase
+          alert('Connexion réussie !'); // Message d'alerte en cas de connexion réussie
         } catch (error) {
-          alert('Erreur de connexion : ' + error.message);
+          alert('Erreur de connexion : ' + error.message); // Message d'erreur en cas d'échec de la connexion
         }
       };
 
-      window.signUp = async function () {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+      // Fonction d'inscription de l'utilisateur avec email et mot de passe
+      window.signUp = async function () { 
+        const email = document.getElementById('email').value; // Récupération de l'email saisi par l'utilisateur
+        const password = document.getElementById('password').value; // Récupération du mot de passe saisi par l'utilisateur
         try {
-          await createUserWithEmailAndPassword(auth, email, password);
-          alert('Inscription réussie !');
+          await createUserWithEmailAndPassword(auth, email, password); // Tentative d'inscription avec Firebase
+          alert('Inscription réussie !'); // Message d'alerte en cas d'inscription réussie
         } catch (error) {
-          alert("Erreur d'inscription : " + error.message);
+          alert("Erreur d'inscription : " + error.message); // Message d'erreur en cas d'échec de l'inscription
         }
       };
 
-      window.signOut = async function () {
+      // Fonction de déconnexion de l'utilisateur
+      window.signOut = async function () { 
         try {
-          await firebaseSignOut(auth);
-          alert('Déconnexion réussie !');
+          await firebaseSignOut(auth); // Tentative de déconnexion avec Firebase
+          alert('Déconnexion réussie !'); // Message d'alerte en cas de déconnexion réussie
         } catch (error) {
-          alert('Erreur de déconnexion : ' + error.message);
+          alert('Erreur de déconnexion : ' + error.message); // Message d'erreur en cas d'échec de la déconnexion
         }
       };
 
-      auth.onAuthStateChanged((user) => {
-        const authForm = document.getElementById('auth-form');
-        const userInfo = document.getElementById('user-info');
-        const userEmail = document.getElementById('user-email');
-
-        if (user) {
-          authForm.style.display = 'none';
-          userInfo.style.display = 'flex';
-          userEmail.textContent = `Connecté en tant que : ${user.email}`;
-        } else {
-          authForm.style.display = 'flex';
-          userInfo.style.display = 'none';
+      // Écouteur d'événements pour suivre l'état de l'utilisateur (connecté ou non)
+      auth.onAuthStateChanged((user) => { 
+        const authForm = document.getElementById('auth-form'); // Sélection du formulaire d'authentification
+        const userInfo = document.getElementById('user-info'); // Sélection de la section pour afficher les infos utilisateur
+        const userEmail = document.getElementById('user-email'); // Sélection de l'élément pour afficher l'email utilisateur
+      
+        if (user) { // Si un utilisateur est connecté
+          authForm.style.display = 'none'; // Masquer le formulaire d'authentification
+          userInfo.style.display = 'flex'; // Afficher les informations de l'utilisateur
+          userEmail.textContent = `Connecté en tant que : ${user.email}`; // Afficher l'email de l'utilisateur connecté
+        } else { // Si aucun utilisateur n'est connecté
+          authForm.style.display = 'flex'; // Afficher le formulaire d'authentification
+          userInfo.style.display = 'none'; // Masquer les informations de l'utilisateur
         }
       });
 
+      // Événement pour fermer la lightbox si on clique en dehors de l'image ou sur le bouton de fermeture
       document
         .querySelector('.lightbox')
-        .addEventListener('click', function (e) {
-          if (e.target === this || e.target.classList.contains('close')) {
-            this.style.display = 'none';
+        .addEventListener('click', function (e) { 
+          if (e.target === this || e.target.classList.contains('close')) { // Si on clique sur la lightbox ou sur le bouton de fermeture
+            this.style.display = 'none'; // Masquer la lightbox
           }
         });
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-          const lightbox = document.getElementById('lightbox');
-          lightbox.style.display = 'none';
+      
+      // Événement pour fermer la lightbox si la touche "Escape" est pressée
+      document.addEventListener('keydown', function (e) { 
+        if (e.key === 'Escape') { // Si la touche "Escape" est pressée
+          const lightbox = document.getElementById('lightbox'); // Sélection de la lightbox
+          lightbox.style.display = 'none'; // Masquer la lightbox
         }
       });
     </script>
   </body>
 </html>
+      

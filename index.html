@@ -98,7 +98,8 @@
       const app = initializeApp(firebaseConfig); // Initialisation de l'application Firebase
       export const auth = getAuth(app); // Récupération de l'instance d'authentification Firebase
 
-      import { // Importation des fonctions d'authentification nécessaires
+      // Importation des fonctions d'authentification nécessaires
+      import {
         signInWithEmailAndPassword,
         createUserWithEmailAndPassword,
         signOut as firebaseSignOut,
@@ -111,6 +112,23 @@
         img.src = imageSrc; // Affectation de l'URL de l'image à afficher dans la lightbox
         lightbox.style.display = 'flex'; // Affichage de la lightbox
       };
+
+      // Événement pour fermer la lightbox si on clique en dehors de l'image ou sur le bouton de fermeture
+      document
+        .querySelector('.lightbox')
+        .addEventListener('click', function (e) { 
+          if (e.target === this || e.target.classList.contains('close')) { // Si on clique sur la lightbox ou sur le bouton de fermeture
+            this.style.display = 'none'; // Masquer la lightbox
+          }
+        });
+      
+      // Événement pour fermer la lightbox si la touche "Escape" est pressée
+      document.addEventListener('keydown', function (e) { 
+        if (e.key === 'Escape') { // Si la touche "Escape" est pressée
+          const lightbox = document.getElementById('lightbox'); // Sélection de la lightbox
+          lightbox.style.display = 'none'; // Masquer la lightbox
+        }
+      });
 
       // Fonction de connexion de l'utilisateur avec email et mot de passe
       window.signIn = async function () { 
@@ -162,22 +180,6 @@
         }
       });
 
-      // Événement pour fermer la lightbox si on clique en dehors de l'image ou sur le bouton de fermeture
-      document
-        .querySelector('.lightbox')
-        .addEventListener('click', function (e) { 
-          if (e.target === this || e.target.classList.contains('close')) { // Si on clique sur la lightbox ou sur le bouton de fermeture
-            this.style.display = 'none'; // Masquer la lightbox
-          }
-        });
-      
-      // Événement pour fermer la lightbox si la touche "Escape" est pressée
-      document.addEventListener('keydown', function (e) { 
-        if (e.key === 'Escape') { // Si la touche "Escape" est pressée
-          const lightbox = document.getElementById('lightbox'); // Sélection de la lightbox
-          lightbox.style.display = 'none'; // Masquer la lightbox
-        }
-      });
     </script>
   </body>
 </html>
